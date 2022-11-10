@@ -53,8 +53,11 @@ jobs:
           sudo ./v symlink
       - name: Compile gitly
         run: |
+         ls
          cd vserver
+         ls
           v .
+          ls
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
