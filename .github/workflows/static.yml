@@ -28,41 +28,50 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout V
-        uses: actions/checkout@v2
-        with:
+     - name: Checkout V
+       uses: actions/checkout@v2
+       with:
           repository: vlang/v
-      - name: Checkout gitly
-        uses: actions/checkout@v2
-        with:
+
+
+     - name: Install Dependencies
+       run: |
+           sudo apt-get update -y -qq
+           sudo apt-get install libsdl2-dev libsdl2-mixer-dev libsdl2-net-dev libpng-dev libsamplerate0-dev
+     - name: Build V
+       run: make && ./v symlink -githubci
+        
+     - name: Build c2v and setup ~/code
+       run: |
+          v install nedpals.vargs
+          
+     - name: Build c2v and setup ~/code
+       run: |
+          v install serkonda7.termtable
+     - name: Build c2v and setup ~/code
+       run: |
+          v install etienne_napoleone.chalk
+     - name: Checkout VFitNess
+       uses: actions/checkout@v2
+       with:
           path: vserver
-      - name: Install SQLite Dependencies
-        run: sudo apt install libsqlite3-dev
-      - name: Install Markdown
-        uses: actions/checkout@v2
-        with:
-          repository: vlang/markdown
-          path: vlib/markdown
-      - name: Build V
-        run: |
-          make
-          sudo ./v symlink
-      - name: Compile gitly
-        run: |
+     - name: Build c2v and setup ~/code
+       run: |
          ls
-         cd vserver
+         pwd
+         cd ./vserver
          ls
-          v .
-          ls
-      - name: Checkout
-        uses: actions/checkout@v3
-      - name: Setup Pages
-        uses: actions/configure-pages@v2
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v1
-        with:
+         pwd
+         v . || true
+     - name: Checkout
+       uses: actions/checkout@v3
+     - name: Setup Pages
+       uses: actions/configure-pages@v2
+     - name: Upload artifact
+       uses: actions/upload-pages-artifact@v1
+       with:
           # Upload entire repository
           path: '.'
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v1
+     - name: Deploy to GitHub Pages
+       id: deployment
+       uses: actions/deploy-pages@v1
